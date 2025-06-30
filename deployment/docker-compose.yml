@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  dynamodb-local:
+    image: amazon/dynamodb-local
+    container_name: dynamodb-local
+    ports:
+      - "8000:8000"
+    networks:
+      - muebles-network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - muebles-network
+
+  muebles-sas:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: muebles-sas
+    ports:
+      - "8080:8080"
+    depends_on:
+      - dynamodb-local
+      - rabbitmq
+    environment:
+      AWS_REGION: us-east-1
+      AWS_DYNAMODB_ENDPOINT: http://dynamodb-local:8000
+      SPRING_PROFILES_ACTIVE: local
+      muebles-sas:
+    networks:
+      - muebles-network
+
+networks:
+  muebles-network:
+    driver: bridge
