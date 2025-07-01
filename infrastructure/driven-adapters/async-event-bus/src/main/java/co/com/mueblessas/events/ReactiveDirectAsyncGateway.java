@@ -10,7 +10,6 @@ import io.cloudevents.core.builder.CloudEventBuilder;
 import io.cloudevents.jackson.JsonCloudEventData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
-
 import java.util.UUID;
 import java.net.URI;
 import java.time.OffsetDateTime;
@@ -19,20 +18,20 @@ import java.util.logging.Level;
 @Log
 @AllArgsConstructor
 @EnableDirectAsyncGateway
-public class ReactiveDirectAsyncGateway /* implements Gateway from domain */ {
-    public static final String TARGET_NAME = "cleanArchitecture";// refers to remote spring.application.name property
+public class ReactiveDirectAsyncGateway {
+    public static final String TARGET_NAME = "cleanArchitecture";
     public static final String SOME_COMMAND_NAME = "some.command.name";
     public static final String SOME_QUERY_NAME = "some.query.name";
     private final DirectAsyncGateway gateway;
     private final ObjectMapper om;
 
 
-    public Mono<Void> runRemoteJob(Object command/*change for proper model*/) throws JsonProcessingException {
+    public Mono<Void> runRemoteJob(Object command) throws JsonProcessingException {
         log.log(Level.INFO, "Sending command: {0}: {1}", new String[]{SOME_COMMAND_NAME, command.toString()});
-        CloudEvent commandCloudEvent = CloudEventBuilder.v1() //
-                                .withId(UUID.randomUUID().toString()) //
-                                .withSource(URI.create("https://spring.io/foos"))//
-                                .withType(SOME_COMMAND_NAME) //
+        CloudEvent commandCloudEvent = CloudEventBuilder.v1()
+                                .withId(UUID.randomUUID().toString())
+                                .withSource(URI.create("https://spring.io/foos"))
+                                .withType(SOME_COMMAND_NAME)
                                 .withTime(OffsetDateTime.now())
                                 .withData("application/json", JsonCloudEventData.wrap(om.valueToTree(command)))
                                 .build();
@@ -40,13 +39,13 @@ public class ReactiveDirectAsyncGateway /* implements Gateway from domain */ {
         return gateway.sendCommand(commandCloudEvent, TARGET_NAME);
     }
 
-    public Mono<Object> requestForRemoteData(Object query/*change for proper model*/) throws JsonProcessingException {
+    public Mono<Object> requestForRemoteData(Object query) throws JsonProcessingException {
         log.log(Level.INFO, "Sending query request: {0}: {1}", new String[]{SOME_QUERY_NAME, query.toString()});
 
-        CloudEvent queryCloudEvent = CloudEventBuilder.v1() //
-                .withId(UUID.randomUUID().toString()) //
-                .withSource(URI.create("https://spring.io/foos"))//
-                .withType(SOME_QUERY_NAME) //
+        CloudEvent queryCloudEvent = CloudEventBuilder.v1()
+                .withId(UUID.randomUUID().toString())
+                .withSource(URI.create("https://spring.io/foos"))
+                .withType(SOME_QUERY_NAME)
                 .withTime(OffsetDateTime.now())
                 .withData("application/json", JsonCloudEventData.wrap(om.valueToTree(query)))
                 .build();

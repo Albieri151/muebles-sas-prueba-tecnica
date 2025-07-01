@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import co.com.mueblessas.model.stat.gateways.StatRepository;
+import static org.mockito.Mockito.*;
+import co.com.mueblessas.model.events.gateways.EventsGateway;
 
 public class UseCasesConfigTest {
 
@@ -22,13 +25,23 @@ public class UseCasesConfigTest {
                 }
             }
 
-            assertTrue(useCaseBeanFound, "No beans ending with 'Use Case' were found");
+            assertTrue(useCaseBeanFound, "No beans ending with 'UseCase' were found");
         }
     }
 
     @Configuration
     @Import(UseCasesConfig.class)
     static class TestConfig {
+
+        @Bean
+        public StatRepository statRepository() {
+            return mock(StatRepository.class);
+        }
+
+        @Bean
+        public EventsGateway eventsGateway() {
+            return mock(EventsGateway.class);
+        }
 
         @Bean
         public MyUseCase myUseCase() {

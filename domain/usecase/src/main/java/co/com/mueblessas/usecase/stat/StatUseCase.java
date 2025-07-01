@@ -8,21 +8,22 @@ import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 import java.time.LocalDateTime;
 
+
 @RequiredArgsConstructor
-    public class StatUseCase {
+public class StatUseCase {
 
-        private final StatRepository statRepository;
-        private final EventsGateway eventsGateway;
+    private final StatRepository statRepository;
+    private final EventsGateway eventsGateway;
 
-        public Mono<Stat> save(Stat stat) {
-            return HashUtils.isHashValid(stat)
-                    .flatMap(isValid -> {
-                        if (!isValid) {
-                            return Mono.error(new IllegalArgumentException("Hash inválido"));
-                        }
-                        stat.setTimestamp(LocalDateTime.now());
-                        return statRepository.save(stat)
-                                .flatMap(saved -> eventsGateway.emit(saved).thenReturn(saved));
+    public Mono<Stat> save(Stat stat) {
+        return HashUtils.isHashValid(stat)
+                .flatMap(isValid -> {
+                    if (!isValid) {
+                        return Mono.error(new IllegalArgumentException("Invalid hash"));
+                    }
+                    stat.setTimestamp(LocalDateTime.now());
+                    return statRepository.save(stat)
+                            .flatMap(saved -> eventsGateway.emit(saved).thenReturn(saved));
                     });
-        }
+    }
 }

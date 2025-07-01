@@ -1,6 +1,5 @@
 package co.com.mueblessas.dynamodb.model;
 
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;

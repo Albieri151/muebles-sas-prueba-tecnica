@@ -10,12 +10,10 @@ import io.cloudevents.CloudEvent;
 import io.cloudevents.core.builder.CloudEventBuilder;
 import io.cloudevents.jackson.JsonCloudEventData;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.util.UUID;
 import java.net.URI;
 import java.time.OffsetDateTime;
 import java.util.logging.Level;
-
 import static reactor.core.publisher.Mono.from;
 
 @Log
