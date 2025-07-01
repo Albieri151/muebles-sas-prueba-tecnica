@@ -75,10 +75,7 @@ El proyecto sigue principios sólidos de Clean Architecture y está diseñado pa
 | Nombre         | Albieri Alaña                                                                                 |
 |----------------|-----------------------------------------------------------------------------------------------|
 | Rol            | Desarrollador Backend Ssr                                                                     |
-| Contacto       | [Albieri Alaña - LinkedIn](https://www.linkedin.com/in/albieri-maximiliano-ala%C3%B1a-reyes/) 
-|
-
-
+| Contacto       | [Albieri Alaña - LinkedIn](https://www.linkedin.com/in/albieri-maximiliano-ala%C3%B1a-reyes/) |
 
 ## Características principales
 
